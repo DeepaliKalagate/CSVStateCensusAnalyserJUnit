@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="CSVStateCensusAnalyserTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-12-07T13:08:02" hostname="admin1-H110M-H" time="0.083">
+  <properties/>
+  <testcase name="giveStateCensusData_CheckRecords_ShouldReturnCountNumber" classname="CSVStateCensusAnalyserTest" time="0.083"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

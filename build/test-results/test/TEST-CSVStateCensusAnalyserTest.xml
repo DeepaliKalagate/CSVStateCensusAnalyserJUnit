@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="CSVStateCensusAnalyserTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-12-07T13:08:02" hostname="admin1-H110M-H" time="0.083">
+<testsuite name="CSVStateCensusAnalyserTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-12-09T03:35:07" hostname="admin1-H110M-H" time="0.004">
   <properties/>
-  <testcase name="giveStateCensusData_CheckRecords_ShouldReturnCountNumber" classname="CSVStateCensusAnalyserTest" time="0.083"/>
-  <system-out><![CDATA[]]></system-out>
+  <testcase name="giveStateCodeFileNameWrong_CheckName_ShouldThrowException" classname="CSVStateCensusAnalyserTest" time="0.004"/>
+  <system-out><![CDATA[Exception : Please Check File Extention! Give Correct Extension
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

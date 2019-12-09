@@ -4,6 +4,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,8 +14,7 @@ public class StateCensusAnalyser
 {
     List<CSVStatesCensus> csvStateCensuses = new ArrayList<>();
 
-    public int giveStateCensusData(String STATE_CENSUS_DATA_CSV_FILE_PATH)
-    {
+    public int giveStateCensusData(String STATE_CENSUS_DATA_CSV_FILE_PATH) throws StateException {
         int count = 0;
         try {
             Reader reader = Files.newBufferedReader(Paths.get(STATE_CENSUS_DATA_CSV_FILE_PATH));
@@ -30,6 +30,11 @@ public class StateCensusAnalyser
                 csvStateCensuses.add(csvStatesCensus);
                 count++;
             }
+        }
+        catch (NoSuchFileException e)
+        {
+            throw new StateException(StateException.ExceptionType.NO_SUCH_FILE,"Please Check File Extention! Give Correct Extension",e);
+
         }
         catch (IOException e)
         {

@@ -89,4 +89,11 @@ public class CSVStateCensusAnalyserTest
         int result = stateCensusAnalyser.sortByPopulation(STATE_CENSUS_DATA_CSV_FILE_PATH);
         Assert.assertEquals(29,result);
     }
+
+    @Test
+    public void giveStateCensusData_SortByStateDensity_ShouldWriteIntoJsonFile() throws IOException, StateException
+    {
+        int result = stateCensusAnalyser.sortByDensity(STATE_CENSUS_DATA_CSV_FILE_PATH);
+        Assert.assertEquals(29,result);
+    }
 }

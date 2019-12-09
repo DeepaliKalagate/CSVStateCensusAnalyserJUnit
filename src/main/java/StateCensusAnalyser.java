@@ -1,3 +1,4 @@
+
 import com.google.gson.Gson;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -14,6 +15,7 @@ public class StateCensusAnalyser
 {
     private static final  String SOrtState_JSON_FILE_PATH="/home/admin1/Desktop/CSVStateCensusAnalyserJUnit/src/main/resources/SortByState.json";
     private static final String SortByPopulation="/home/admin1/Desktop/CSVStateCensusAnalyserJUnit/src/main/resources/SortByPopulation.json";
+    private static final String SortByDensityPerSqKm ="/home/admin1/Desktop/CSVStateCensusAnalyserJUnit/src/main/resources/SortByDensityPerSqKm.json";
     List<CSVStatesCensus> csvStateCensuses = new ArrayList<>();
 
     public int giveStateCensusData(String STATE_CENSUS_DATA_CSV_FILE_PATH) throws StateException {
@@ -52,7 +54,6 @@ public class StateCensusAnalyser
         }
         return count;
     }
-
     public int sortCSVFile(String STATE_CENSUS_DATA_CSV_FILE_PATH) throws IOException, StateException
     {
 
@@ -70,6 +71,15 @@ public class StateCensusAnalyser
         Comparator<CSVStatesCensus> c = (s1, s2) -> Integer.parseInt(s2.getPopulation()) - Integer.parseInt(s1.getPopulation());
         csvStateCensuses.sort(c);
         writeInJSONFile(csvStateCensuses,SortByPopulation);
+        return count;
+    }
+
+    public int sortByDensity(String STATE_CENSUS_DATA_CSV_FILE_PATH) throws IOException, StateException
+    {
+        int count = giveStateCensusData(STATE_CENSUS_DATA_CSV_FILE_PATH);
+        Comparator<CSVStatesCensus> c = (s1, s2) -> Integer.parseInt(s2.getDensityPerSqKm()) - Integer.parseInt(s1.getDensityPerSqKm());
+        csvStateCensuses.sort(c);
+        writeInJSONFile(csvStateCensuses,SortByDensityPerSqKm);
         return count;
     }
 

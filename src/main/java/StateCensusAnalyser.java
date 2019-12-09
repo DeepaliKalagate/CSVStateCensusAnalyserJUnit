@@ -1,17 +1,19 @@
+import com.google.gson.Gson;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class StateCensusAnalyser
 {
+    private static final  String SOrtState_JSON_FILE_PATH="/home/admin1/Desktop/CSVStateCensusAnalyserJUnit/src/main/resources/SortByState.json";
+    private static final String SortByPopulation="/home/admin1/Desktop/CSVStateCensusAnalyserJUnit/src/main/resources/SortByPopulation.json";
     List<CSVStatesCensus> csvStateCensuses = new ArrayList<>();
 
     public int giveStateCensusData(String STATE_CENSUS_DATA_CSV_FILE_PATH) throws StateException {
@@ -28,7 +30,7 @@ public class StateCensusAnalyser
             {
                 CSVStatesCensus csvStatesCensus = csvUserIterator.next();
                 csvStateCensuses.add(csvStatesCensus);
-                if (csvStatesCensus.getState()==null || csvStatesCensus.getPopulation()==0 || csvStatesCensus.getAreaInSqKm()==0 || csvStatesCensus.getDensityPerSqKm()==0)
+                if (csvStatesCensus.getState()==null || csvStatesCensus.getPopulation()==null || csvStatesCensus.getAreaInSqKm()==null || csvStatesCensus.getDensityPerSqKm()==null)
                 {
                     throw new StateException(StateException.ExceptionType.NO_SUCH_HEADER, "No Such Header in File");
                 }
@@ -49,5 +51,34 @@ public class StateCensusAnalyser
             e.printStackTrace();
         }
         return count;
+    }
+
+    public int sortCSVFile(String STATE_CENSUS_DATA_CSV_FILE_PATH) throws IOException, StateException
+    {
+
+        int count = giveStateCensusData(STATE_CENSUS_DATA_CSV_FILE_PATH);
+        Comparator<CSVStatesCensus> c = (s1, s2) -> s1.getState().compareTo(s2.getState());
+        csvStateCensuses.sort(c);
+        writeInJSONFile(csvStateCensuses,SOrtState_JSON_FILE_PATH);
+        return count;
+    }
+
+    public int sortByPopulation(String STATE_CENSUS_DATA_CSV_FILE_PATH) throws IOException, StateException
+    {
+
+        int count = giveStateCensusData(STATE_CENSUS_DATA_CSV_FILE_PATH);
+        Comparator<CSVStatesCensus> c = (s1, s2) -> Integer.parseInt(s2.getPopulation()) - Integer.parseInt(s1.getPopulation());
+        csvStateCensuses.sort(c);
+        writeInJSONFile(csvStateCensuses,SortByPopulation);
+        return count;
+    }
+
+    public void writeInJSONFile(List<CSVStatesCensus> list,String filePath) throws IOException
+    {
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        FileWriter writer = new FileWriter(filePath);
+        writer.write(json);
+        writer.close();
     }
 }

@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9a7590e4-34e8-419d-a4bc-3fc3a51c9356" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CSVStatesCensus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CSVStatesCensus.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/StateCensusAnalyser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/StateCensusAnalyser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/StateCensusData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/StateCensusData.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/CSVStateCensusAnalyserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/CSVStateCensusAnalyserTest.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

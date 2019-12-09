@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="CSVStateCensusAnalyserTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-12-09T03:37:43" hostname="admin1-H110M-H" time="0.003">
+<testsuite name="CSVStateCensusAnalyserTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-12-09T03:42:32" hostname="admin1-H110M-H" time="0.085">
   <properties/>
-  <testcase name="giveStateCodeFilePathWrong_CheckExtension_ShouldThrowException" classname="CSVStateCensusAnalyserTest" time="0.003"/>
-  <system-out><![CDATA[Exception :Please Check File Extention! Give Correct Extension
-]]></system-out>
+  <testcase name="giveStateCodeFile_CheckDelimiter_ShouldThrowException" classname="CSVStateCensusAnalyserTest" time="0.085"/>
+  <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

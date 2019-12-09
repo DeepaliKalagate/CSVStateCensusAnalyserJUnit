@@ -31,6 +31,10 @@ public class StateCensusAnalyser
                 count++;
             }
         }
+        catch (RuntimeException e)
+        {
+            throw new StateException(StateException.ExceptionType.INVALID_DELIMITER,"Exception is Occured because of incorrect Delimiter or Header",e);
+        }
         catch (NoSuchFileException e)
         {
             throw new StateException(StateException.ExceptionType.NO_SUCH_FILE,"Please Check File Extention! Give Correct Extension",e);

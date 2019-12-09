@@ -16,11 +16,14 @@ public class StateCensusAnalyser
     private static final  String SOrtState_JSON_FILE_PATH="/home/admin1/Desktop/CSVStateCensusAnalyserJUnit/src/main/resources/SortByState.json";
     private static final String SortByPopulation="/home/admin1/Desktop/CSVStateCensusAnalyserJUnit/src/main/resources/SortByPopulation.json";
     private static final String SortByDensityPerSqKm ="/home/admin1/Desktop/CSVStateCensusAnalyserJUnit/src/main/resources/SortByDensityPerSqKm.json";
+    private static final String SortByAreaInSqKm="/home/admin1/Desktop/CSVStateCensusAnalyserJUnit/src/main/resources/SortByAreaInSqKm.json";
     List<CSVStatesCensus> csvStateCensuses = new ArrayList<>();
 
-    public int giveStateCensusData(String STATE_CENSUS_DATA_CSV_FILE_PATH) throws StateException {
+    public int giveStateCensusData(String STATE_CENSUS_DATA_CSV_FILE_PATH) throws StateException
+    {
         int count = 0;
-        try {
+        try
+        {
             Reader reader = Files.newBufferedReader(Paths.get(STATE_CENSUS_DATA_CSV_FILE_PATH));
             CsvToBean<CSVStatesCensus> cavToBean = new CsvToBeanBuilder(reader)
                     .withType(CSVStatesCensus.class)
@@ -80,6 +83,15 @@ public class StateCensusAnalyser
         Comparator<CSVStatesCensus> c = (s1, s2) -> Integer.parseInt(s2.getDensityPerSqKm()) - Integer.parseInt(s1.getDensityPerSqKm());
         csvStateCensuses.sort(c);
         writeInJSONFile(csvStateCensuses,SortByDensityPerSqKm);
+        return count;
+    }
+
+    public int sortByAreaInSqKm(String STATE_CENSUS_DATA_CSV_FILE_PATH) throws IOException, StateException
+    {
+        int count = giveStateCensusData(STATE_CENSUS_DATA_CSV_FILE_PATH);
+        Comparator<CSVStatesCensus> c = (s1, s2) -> Integer.parseInt(s2.getAreaInSqKm()) - Integer.parseInt(s1.getAreaInSqKm());
+        csvStateCensuses.sort(c);
+        writeInJSONFile(csvStateCensuses,SortByAreaInSqKm);
         return count;
     }
 

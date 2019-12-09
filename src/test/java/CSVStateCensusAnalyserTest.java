@@ -27,7 +27,6 @@ public class CSVStateCensusAnalyserTest
             System.out.println("Exception : "+e.getMessage());
             Assert.assertEquals(StateException.ExceptionType.NO_SUCH_FILE,e.type);
         }
-
     }
 
     @Test
@@ -94,6 +93,12 @@ public class CSVStateCensusAnalyserTest
     public void giveStateCensusData_SortByStateDensity_ShouldWriteIntoJsonFile() throws IOException, StateException
     {
         int result = stateCensusAnalyser.sortByDensity(STATE_CENSUS_DATA_CSV_FILE_PATH);
+        Assert.assertEquals(29,result);
+    }
+    @Test
+    public void giveStateCensusData_SortByAreaInSqKm_ShouldWriteIntoJsonFile() throws IOException, StateException
+    {
+        int result = stateCensusAnalyser.sortByAreaInSqKm(STATE_CENSUS_DATA_CSV_FILE_PATH);
         Assert.assertEquals(29,result);
     }
 }

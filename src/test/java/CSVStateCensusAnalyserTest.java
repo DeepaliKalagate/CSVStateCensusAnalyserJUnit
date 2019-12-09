@@ -16,7 +16,7 @@ public class CSVStateCensusAnalyserTest
     }
 
     @Test
-    public void giveStateCodeFileNameWrong_CheckName_ShouldThrowException() throws StateException
+    public void giveStateCodeFileNameWrong_CheckName_ShouldThrowException()
     {
         try
         {
@@ -31,7 +31,7 @@ public class CSVStateCensusAnalyserTest
     }
 
     @Test
-    public void giveStateCodeFilePathWrong_CheckExtension_ShouldThrowException() throws IOException, StateException
+    public void giveStateCodeFilePathWrong_CheckExtension_ShouldThrowException()
     {
         try
         {
@@ -46,7 +46,7 @@ public class CSVStateCensusAnalyserTest
     }
 
     @Test
-    public void givenStatecensusFile_IncorrectDelimiter_ShouldThrowException() throws IOException,StateException
+    public void givenStatecensusFile_IncorrectDelimiter_ShouldThrowException()
     {
         try
         {
@@ -61,7 +61,7 @@ public class CSVStateCensusAnalyserTest
     }
 
     @Test
-    public void giveStateCodeFile_CheckHeader_ShouldThrowException() throws IOException,StateException
+    public void giveStateCodeFile_CheckHeader_ShouldThrowException()
     {
         try
         {
@@ -74,5 +74,12 @@ public class CSVStateCensusAnalyserTest
             System.out.println("Exception :"+e.getMessage());
             Assert.assertEquals(StateException.ExceptionType.NO_SUCH_HEADER,e.type);
         }
+    }
+
+    @Test
+    public void giveStateCensusData_SortByStateName_ShouldWriteIntoJsonFile() throws StateException, IOException
+    {
+        int result = stateCensusAnalyser.sortCSVFile(STATE_CENSUS_DATA_CSV_FILE_PATH);
+        Assert.assertEquals(29,result);
     }
 }

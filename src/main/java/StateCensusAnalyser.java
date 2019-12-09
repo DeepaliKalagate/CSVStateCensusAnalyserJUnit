@@ -1,17 +1,18 @@
+import com.google.gson.Gson;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class StateCensusAnalyser
 {
+    private static final  String SOrtState_JSON_FILE_PATH="/home/admin1/Desktop/CSVStateCensusAnalyserJUnit/src/main/resources/SortByState.json";
     List<CSVStatesCensus> csvStateCensuses = new ArrayList<>();
 
     public int giveStateCensusData(String STATE_CENSUS_DATA_CSV_FILE_PATH) throws StateException {
@@ -49,5 +50,24 @@ public class StateCensusAnalyser
             e.printStackTrace();
         }
         return count;
+    }
+
+    public int sortCSVFile(String STATE_CENSUS_DATA_CSV_FILE_PATH) throws IOException, StateException
+    {
+
+        int count = giveStateCensusData(STATE_CENSUS_DATA_CSV_FILE_PATH);
+        Comparator<CSVStatesCensus> c = (s1, s2) -> s1.getState().compareTo(s2.getState());
+        csvStateCensuses.sort(c);
+        writeInJSONFile(csvStateCensuses,SOrtState_JSON_FILE_PATH);
+        return count;
+    }
+
+    public void writeInJSONFile(List<CSVStatesCensus> list,String filePath) throws IOException
+    {
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        FileWriter writer = new FileWriter(filePath);
+        writer.write(json);
+        writer.close();
     }
 }

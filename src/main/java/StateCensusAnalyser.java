@@ -13,7 +13,7 @@ import java.util.*;
 public class StateCensusAnalyser
 {
     private static final  String SOrtState_JSON_FILE_PATH="/home/admin1/Desktop/CSVStateCensusAnalyserJUnit/src/main/resources/SortByState.json";
-    List<CSVStatesCensus> csvStateCensuses = new ArrayList<>();
+      List<CSVStatesCensus> csvStateCensuses = new ArrayList<>();
 
     public int giveStateCensusData(String STATE_CENSUS_DATA_CSV_FILE_PATH) throws StateException {
         int count = 0;
@@ -29,7 +29,7 @@ public class StateCensusAnalyser
             {
                 CSVStatesCensus csvStatesCensus = csvUserIterator.next();
                 csvStateCensuses.add(csvStatesCensus);
-                if (csvStatesCensus.getState()==null || csvStatesCensus.getPopulation()==0 || csvStatesCensus.getAreaInSqKm()==0 || csvStatesCensus.getDensityPerSqKm()==0)
+                if (csvStatesCensus.getState()==null || csvStatesCensus.getPopulation()==null || csvStatesCensus.getAreaInSqKm()==null || csvStatesCensus.getDensityPerSqKm()==null)
                 {
                     throw new StateException(StateException.ExceptionType.NO_SUCH_HEADER, "No Such Header in File");
                 }
@@ -61,6 +61,8 @@ public class StateCensusAnalyser
         writeInJSONFile(csvStateCensuses,SOrtState_JSON_FILE_PATH);
         return count;
     }
+
+
 
     public void writeInJSONFile(List<CSVStatesCensus> list,String filePath) throws IOException
     {

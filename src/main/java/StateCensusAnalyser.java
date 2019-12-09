@@ -28,6 +28,10 @@ public class StateCensusAnalyser
             {
                 CSVStatesCensus csvStatesCensus = csvUserIterator.next();
                 csvStateCensuses.add(csvStatesCensus);
+                if (csvStatesCensus.getState()==null || csvStatesCensus.getPopulation()==0 || csvStatesCensus.getAreaInSqKm()==0 || csvStatesCensus.getDensityPerSqKm()==0)
+                {
+                    throw new StateException(StateException.ExceptionType.NO_SUCH_HEADER, "No Such Header in File");
+                }
                 count++;
             }
         }

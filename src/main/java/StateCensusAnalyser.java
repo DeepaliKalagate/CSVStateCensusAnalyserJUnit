@@ -2,10 +2,12 @@
 import com.google.gson.Gson;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import sun.security.timestamp.TSRequest;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
@@ -13,20 +15,19 @@ import java.util.*;
 
 public class StateCensusAnalyser
 {
-    private static final  String SOrtState_JSON_FILE_PATH="/home/admin1/Desktop/CSVStateCensusAnalyserJUnit/src/main/resources/SortByState.json";
-    private static final String SortByPopulation="/home/admin1/Desktop/CSVStateCensusAnalyserJUnit/src/main/resources/SortByPopulation.json";
-    private static final String SortByDensityPerSqKm ="/home/admin1/Desktop/CSVStateCensusAnalyserJUnit/src/main/resources/SortByDensityPerSqKm.json";
+    private static final String STATE_CENSUS_DATA_CSV_FILE_PATH="/home/admin1/Desktop/CSVStateCensusAnalyserJUnit/src/main/resources/StateCensusData.csv";
     List<CSVStatesCensus> csvStateCensuses = new ArrayList<>();
 
-    public int giveStateCensusData(String STATE_CENSUS_DATA_CSV_FILE_PATH) throws StateException {
+    public int givenStateCensusData(String STATE_CENSUS_DATA_CSV_FILE_PATH) throws StateException
+    {
         int count = 0;
-        try {
+        try
+        {
             Reader reader = Files.newBufferedReader(Paths.get(STATE_CENSUS_DATA_CSV_FILE_PATH));
             CsvToBean<CSVStatesCensus> cavToBean = new CsvToBeanBuilder(reader)
                     .withType(CSVStatesCensus.class)
                     .withIgnoreLeadingWhiteSpace(true)
                     .build();
-
             Iterator<CSVStatesCensus> csvUserIterator = cavToBean.iterator();
             while (csvUserIterator.hasNext())
             {
@@ -46,40 +47,11 @@ public class StateCensusAnalyser
         catch (NoSuchFileException e)
         {
             throw new StateException(StateException.ExceptionType.NO_SUCH_FILE,"Please Check File Extention! Give Correct Extension",e);
-
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
-        return count;
-    }
-    public int sortCSVFile(String STATE_CENSUS_DATA_CSV_FILE_PATH) throws IOException, StateException
-    {
-
-        int count = giveStateCensusData(STATE_CENSUS_DATA_CSV_FILE_PATH);
-        Comparator<CSVStatesCensus> c = (s1, s2) -> s1.getState().compareTo(s2.getState());
-        csvStateCensuses.sort(c);
-        writeInJSONFile(csvStateCensuses,SOrtState_JSON_FILE_PATH);
-        return count;
-    }
-
-    public int sortByPopulation(String STATE_CENSUS_DATA_CSV_FILE_PATH) throws IOException, StateException
-    {
-
-        int count = giveStateCensusData(STATE_CENSUS_DATA_CSV_FILE_PATH);
-        Comparator<CSVStatesCensus> c = (s1, s2) -> Integer.parseInt(s2.getPopulation()) - Integer.parseInt(s1.getPopulation());
-        csvStateCensuses.sort(c);
-        writeInJSONFile(csvStateCensuses,SortByPopulation);
-        return count;
-    }
-
-    public int sortByDensity(String STATE_CENSUS_DATA_CSV_FILE_PATH) throws IOException, StateException
-    {
-        int count = giveStateCensusData(STATE_CENSUS_DATA_CSV_FILE_PATH);
-        Comparator<CSVStatesCensus> c = (s1, s2) -> Integer.parseInt(s2.getDensityPerSqKm()) - Integer.parseInt(s1.getDensityPerSqKm());
-        csvStateCensuses.sort(c);
-        writeInJSONFile(csvStateCensuses,SortByDensityPerSqKm);
         return count;
     }
 
@@ -90,5 +62,30 @@ public class StateCensusAnalyser
         FileWriter writer = new FileWriter(filePath);
         writer.write(json);
         writer.close();
+    }
+
+    public boolean genericSortMethod(String csvFile,String fieldName, String SortByBasedOnField) throws IOException, StateException
+    {
+        givenStateCensusData(csvFile);
+        Collections.sort(csvStateCensuses, new Comparator<CSVStatesCensus>()
+        {
+            public int compare(CSVStatesCensus csvStatesCensus1, CSVStatesCensus csvStatesCensus2)
+            {
+                try
+                {
+                    Field fieldType = CSVStatesCensus.class.getDeclaredField(fieldName);
+                    fieldType.setAccessible(true);
+                    Comparable stateCensusFieldValue1 = (Comparable) fieldType.get(csvStatesCensus1);
+                    Comparable stateCensusFieldValue2 = (Comparable) fieldType.get(csvStatesCensus2);
+                    return stateCensusFieldValue1.compareTo(stateCensusFieldValue2);
+                }
+                finally
+                {
+                    return 0;
+                }
+            }
+        });
+        writeInJSONFile(csvStateCensuses, SortByBasedOnField);
+        return true;
     }
 }
